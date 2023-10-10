@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Comic {
+  id String @id @default(uuid())
+  title String
+  releaseDate String
+  publisher String
+
+  writers Writer[]
+  colorists Colorist[]
+  coverArtists CoverArtist[]
+  editors Editor[]
+  inkers Inker[]
+  letterers Letterer[]
+  
+}
+
+model Colorist {
+  id String @id @default(uuid())
+  name String
+  
+  comics Comic[]
+}
+
+model CoverArtist {
+  id String @id @default(uuid())
+  name String
+
+  comics Comic[]
+}
+
+model Editor {
+  id String @id @default(uuid())
+  name String
+
+  comics Comic[]
+}
+
+model Inker {
+  id String @id @default(uuid())
+  name String
+
+  comics Comic[]
+}
+
+model Letterer {
+  id String @id @default(uuid())
+  name String
+
+  comics Comic[]
+}
+
+model Writer {
+  id String @id @default(uuid())
+  name String
+
+  comics Comic[]
+}

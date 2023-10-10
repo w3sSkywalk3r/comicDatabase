@@ -1,45 +1,49 @@
-import React, { useState } from "react";
-import {useEffect} from 'react';
+import {useState } from 'react';
 
-const CollectionPage = () => {
-  const [searchText, setSearchText] = useState("");
+const AddComicForm = () => {
+    const [comicData, setComicData] = useState({
+        title: '',
+        releaseData: '',
+        publisher: '',
+        writers: [],
+        colorists: [],
+        coverArtists: [],
+        editors: [], 
+        inkers: [],
+        letterers: [],
+    });
 
-const [comicTitle, setComicTitle] = useState(""); //instantiates state for title
-const [publisher, setPublisher] = useState(""); //instantiates state for publisher
-const [releaseDate, setReleaseDate] = useState("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('/api/addComic', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comicData),
+            });
+            if(response.ok) {
+                //Handle Successes
+                const data = await response.json();
+                console.log(data.message);
+            }
+            else {
+                //Handle Error
+                const errorData = await response.json();
+                console.error('An error occurred: ', error);
+            }
+        } catch (error) {
 
-const [writerName, setWriterName] = useState("");
-const [coloristName, setColoristName] = useState("");
-const [coverArtistName, setCoverArtistName] = useState("");
-const [editorName, setEditorName] = useState("");
-const [inkerName, setInkerName] = useState("");
-const [lettererName, setLettererName] = useState("");
+        }
+    }
+};
 
-
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-  };
-
-  useEffect(() => {
-    console.log("comicTitle", comicTitle);
-    console.log("publisher", publisher);
-    console.log("releaseDate", releaseDate);
-    console.log("Writer", writerName);
-    console.log("Colorist", coloristName);
-    console.log("CoverArtist", coverArtistName);
-    console.log("Editor", editorName);
-    console.log("Inker", inkerName);
-    console.log("Letterer", lettererName);
-    
-  }, [comicTitle, publisher, releaseDate, writerName, coloristName, coverArtistName, editorName, inkerName, lettererName]) //Array of variables so they update as user types
-
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    const body = {comicTitle, publisher, releaseDate, writerName, coloristName, coverArtistName, editorName, inkerName, lettererName}
-  }
-
-  return (
-    <form class="w-full max-w-lg">
+return (
+    <form 
+        class="w-full max-w-lg"
+        onSubmit = {handleSubmit}
+    >
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
@@ -161,9 +165,10 @@ const [lettererName, setLettererName] = useState("");
           </div>
         </div>
       </div>
+      <button type="submit">Confirm</button>
     </div>
   </form>
   );
-};
 
-export default CollectionPage;
+export default AddComicForm;
+
