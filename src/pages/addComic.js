@@ -1,4 +1,4 @@
-import AddComicForm from '../pages/api/addComic.js';
+import AddComicForm from '../pages/AddComicForm.js';
 
 const AddComicPage = () => {
     return (

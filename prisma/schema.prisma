@@ -13,7 +13,7 @@ datasource db {
 
 model Comic {
   id String @id @default(uuid())
-  title String
+  title String @unique
   releaseDate String
   publisher String
 
@@ -28,42 +28,42 @@ model Comic {
 
 model Colorist {
   id String @id @default(uuid())
-  name String
+  name String @unique
   
   comics Comic[]
 }
 
 model CoverArtist {
   id String @id @default(uuid())
-  name String
+  name String @unique
 
   comics Comic[]
 }
 
 model Editor {
   id String @id @default(uuid())
-  name String
+  name String @unique
 
   comics Comic[]
 }
 
 model Inker {
   id String @id @default(uuid())
-  name String
+  name String @unique
 
   comics Comic[]
 }
 
 model Letterer {
   id String @id @default(uuid())
-  name String
+  name String @unique
 
   comics Comic[]
 }
 
 model Writer {
   id String @id @default(uuid())
-  name String
+  name String @unique
 
   comics Comic[]
 }

@@ -44,6 +44,77 @@ export default async function handler(req, res) {
             res.status(200).json({message: 'Comic successfully updated'}); //Status 200 is the okay code sent to the server
           }
           else {
+            const writerConnectOrCreate = [];
+            for (const writer of writers) {
+                const existingWriter = await prisma.writer.findFirst({
+                    where: {name: writer},
+                });
+
+                if (existingWriter) {
+                    writerConnectOrCreate.push({writerId: existingWriter.id});
+                } else {
+                    const writerRecord = await prisma.writer.create({
+                        data: {
+                            name: writer,
+                        }
+                    });
+                    writerConnectOrCreate.push({writerId: writerRecord.id})
+                }
+            }
+
+            const coloristConnectOrCreate = [];
+            for (const colorist of colorists) {
+                const coloristRecord = await prisma.colorist.create({
+                    data: {
+                        name: colorist,
+                    }
+                });
+                coloristConnectOrCreate.push({coloristId: coloristRecord.id})
+            }
+
+            const coverArtistConnectOrCreate = [];
+            for (const coverArtist of coverArtists) {
+                const coverArtistRecord = await prisma.coverArtist.create({
+                    data: {
+                        name: coverArtist,
+                    }
+                });
+                coverArtistConnectOrCreate.push({coverArtistId: coverArtistRecord.id})
+            }
+
+            const editorConnectOrCreate = [];
+            for (const editor of editors) {
+                const editorRecord = await prisma.editor.create({
+                    data: {
+                        name: editor,
+                    }
+                });
+                editorConnectOrCreate.push({editorId: editorRecord.id})
+            }
+
+            const inkerConnectOrCreate = [];
+            for (const inker of inkers) {
+                const inkerRecord = await prisma.inker.create({
+                    data: {
+                        name: inker,
+                    }
+                });
+                inkerConnectOrCreate.push({inkerId: inkerRecord.id})
+            }
+
+            const lettererConnectOrCreate = [];
+            for (const letterer of letterers) {
+                const lettererRecord = await prisma.letterer.create({
+                    data: {
+                        name: letterer,
+                    }
+                });
+                lettererConnectOrCreate.push({lettererId: lettererRecord.id})
+            }
+
+
+
+
             //If the comic does not exist now we will create a new comic along with all the junctions
             const newComic = await prisma.comic.create({
                 data: {
@@ -51,40 +122,22 @@ export default async function handler(req, res) {
                     releaseData: releaseDate,
                     publisher: publisher,
                     writers: {
-                        connectOrCreate: writers.map((writer) => ({
-                            where: {name: writer.name},
-                            create: {name: writer.name},
-                        })),
+                        connect: writerConnectOrCreate,
                     },
                     colorists: {
-                        connectOrCreate: colorists.map((colorist) => ({
-                            where: { name: colorist.name},
-                            create: {name: colorist.name},
-                        })),
+                        connect: coloristConnectOrCreate,
                     },
                     coverArtists: {
-                        connectOrCreate: coverArtists.map((coverArtist) => ({
-                            where: { name: coverArtist.name},
-                            create: {name: coverArtist.name},
-                        })),
+                        connect: coverArtistConnectOrCreate,
                     },
                     editors: {
-                        connectOrCreate: editors.map((editor) => ({
-                            where: { name: editor.name},
-                            create: {name: editor.name},
-                        })),
+                         connect: editorConnectOrCreate,
                     },
                     inkers: {
-                        connectOrCreate: inkers.map((inker) => ({
-                            where: { name: inker.name},
-                            create: {name: inker.name},
-                        })),
+                        connect: inkerConnectOrCreate,
                     },
                     letterers: {
-                        connectOrCreate: letterers.map((letterer) => ({
-                            where: { name: letterer.name},
-                            create: {name: letterer.name},
-                        })),
+                        connect: lettererConnectOrCreate,
                     },         
                 }
             });
