@@ -11,59 +11,52 @@ datasource db {
   relationMode = "prisma"
 }
 
+
 model Comic {
-  id String @id @default(uuid())
-  title String @unique
-  releaseDate String
-  publisher String
-
-  writers Writer[]
-  colorists Colorist[]
-  coverArtists CoverArtist[]
-  editors Editor[]
-  inkers Inker[]
-  letterers Letterer[]
-  
-}
-
-model Colorist {
-  id String @id @default(uuid())
-  name String @unique
-  
-  comics Comic[]
-}
-
-model CoverArtist {
-  id String @id @default(uuid())
-  name String @unique
-
-  comics Comic[]
-}
-
-model Editor {
-  id String @id @default(uuid())
-  name String @unique
-
-  comics Comic[]
-}
-
-model Inker {
-  id String @id @default(uuid())
-  name String @unique
-
-  comics Comic[]
-}
-
-model Letterer {
-  id String @id @default(uuid())
-  name String @unique
-
-  comics Comic[]
+  id           String    @id @default(uuid()) @unique
+  title        String
+  releaseDate  DateTime
+  publisher    String
+    writers      Writer[]  @relation("ComicWriter")
+  colorists    Colorist[] @relation("ComicColorist")
+  coverArtists CoverArtist[] @relation("ComicCoverArtist")
+  editors      Editor[]  @relation("ComicEditor")
+  inkers       Inker[]   @relation("ComicInker")
+  letterers    Letterer[] @relation("ComicLetterer")
 }
 
 model Writer {
-  id String @id @default(uuid())
-  name String @unique
+  id     String   @id @default(uuid())
+  name   String   @unique
+  comics Comic[]  @relation("ComicWriter")
+}
 
-  comics Comic[]
+model Colorist {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  comics Comic[]  @relation("ComicColorist")
+}
+
+model CoverArtist {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  comics Comic[]  @relation("ComicCoverArtist")
+}
+
+model Editor {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  comics Comic[]  @relation("ComicEditor")
+}
+
+model Inker {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  comics Comic[]  @relation("ComicInker")
+}
+
+model Letterer {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  comics Comic[]  @relation("ComicLetterer")
 }
