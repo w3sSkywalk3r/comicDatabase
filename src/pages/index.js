@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
 
-import ViewComicPage from './viewComic';
+import ViewComicPage from './viewComicPage';
 import AddComicPage from './addComic'
 
 const CollectionPage = () => {
@@ -50,7 +50,7 @@ const [lettererName, setLettererName] = useState("");
   return (
     <div>
       <h1>Comic Collection</h1>
-      <ViewComicPage />
+      <ViewComicPage/>
       <button type="button" onClick={handleAddClick}>+ Add Comic</button>
     </div>
   )

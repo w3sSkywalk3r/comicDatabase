@@ -1,12 +1,12 @@
-import viewComicForm from '../pages/viewComicForm.js';
+import ViewComic from '../pages/viewComicForm.js';
 
 const ViewComicPage = () => {
-    return(
+    return (
         <div>
             <h1>View Collection</h1>
-            <viewComicForm/>
+            <ViewComic/>
         </div>
-    )
+    );
 };
 
 export default ViewComicPage

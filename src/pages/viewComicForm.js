@@ -1,84 +1,50 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
-const ViewComicPage = () => {
-    const [comics, setComics] = useState([]);
-    const [loading, setLoading] = useState(true);
+const ViewComic = () => {
+  const [comics, setComics] = useState([]);
 
-    useEffect(() => {
-        async function fetchComics() {
-            try {
-                const response = await fetch('/api/viewComic');
-                if(response.ok) {
-                    const data = await response.json();
-                    setComics(data.comics);
-                }
-                else {
-                    console.error('Error fetching comics: ', response.status);
-                }
-            } catch(error) {
-                console.error('An error occurred: ', error);
-            } finally {
-                setLoading(false);
-            }
-        }
+  useEffect(() => {
+    fetch('/api/viewComic')
+      .then((response) => response.json())
+      .then((data) => setComics(data))
+      .catch((error) => console.error(error));
+  }, []);
 
-        fetchComics();
-    },
-    [])
-
-
-return (
-    <div>
-        <h1>Comic Collection</h1>
-        {loading ? (
-            <p>Loading...</p>
-        ) : (
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Release Date</th>
-                        <th>Publisher</th>
-                        <th>Writers</th>
-                        <th>Colorists</th>
-                        <th>Cover Artists</th>
-                        <th>Editors</th>
-                        <th>Inkers</th>
-                        <th>Letterers</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {comics.map((comic) => (
-                        <tr key={comic.id}>
-                            <td>{comic.title}</td>
-                            <td>{comic.releaseDate}</td>
-                            <td>{comic.publisher}</td>
-                            <td>{comic.writers.map((writer) => (
-                                <span key={writer.id}>{writer.name}, </span> ))}
-                            </td>
-                            <td>{comic.colorists.map((colorist) => (
-                                <span key={colorist.id}>{colorist.name}, </span> ))}
-                            </td>
-                            <td>{comic.coverArtists.map((coverArtist) => (
-                                <span key={coverArtist.id}>{coverArtist.name}, </span> ))}
-                            </td>
-                            <td>{comic.editors.map((editor) => (
-                                <span key={editor.id}>{editor.name}, </span> ))}
-                            </td>
-                            <td>{comic.inkers.map((inker) => (
-                                <span key={inker.id}>{inker.name}, </span> ))}
-                            </td>
-                            <td>{comic.letterers.map((letterer) => (
-                                <span key={letterer.id}>{letterer.name}, </span> ))}
-                            </td>
-
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        )}
+  return (
+    <div className="container mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Comics</h1>
+      <table className="table-auto w-full">
+        <thead>
+          <tr>
+            <th className="px-4 py-2">Title</th>
+            <th className="px-4 py-2">Release Date</th>
+            <th className="px-4 py-2">Publisher</th>
+            <th className="px-4 py-2">Writers</th>
+            <th className="px-4 py-2">Colorists</th>
+            <th className="px-4 py-2">Inkers</th>
+            <th className="px-4 py-2">Cover Artists</th>
+            <th className="px-4 py-2">Editors</th>
+            <th className="px-4 py-2">Letterers</th>
+          </tr>
+        </thead>
+        <tbody>
+          {comics.map((comic) => (
+            <tr key={comic.id}>
+              <td className="border px-4 py-2">{comic.title}</td>
+              <td className="border px-4 py-2">{comic.releaseDate}</td>
+              <td className="border px-4 py-2">{comic.publisher}</td>
+              <td className="border px-4 py-2">{comic.writers}</td>
+              <td className="border px-4 py-2">{comic.colorists}</td>
+              <td className="border px-4 py-2">{comic.inkers}</td>
+              <td className="border px-4 py-2">{comic.coverArtists}</td>
+              <td className="border px-4 py-2">{comic.editors}</td>
+              <td className="border px-4 py-2">{comic.letterers}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-)
+  );
 };
 
-export default ViewComicPage;
+export default ViewComic;
