@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
+import Navbar from '../components/navbar'; //importing the navbar component
 
 import ViewComicPage from './viewComicPage';
 import AddComicPage from './addComic'
@@ -9,16 +10,16 @@ const CollectionPage = () => {
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
 
-const [comicTitle, setComicTitle] = useState(""); //instantiates state for title
-const [publisher, setPublisher] = useState(""); //instantiates state for publisher
-const [releaseDate, setReleaseDate] = useState("");
+  const [comicTitle, setComicTitle] = useState(""); //instantiates state for title
+  const [publisher, setPublisher] = useState(""); //instantiates state for publisher
+  const [releaseDate, setReleaseDate] = useState("");
 
-const [writerName, setWriterName] = useState("");
-const [coloristName, setColoristName] = useState("");
-const [coverArtistName, setCoverArtistName] = useState("");
-const [editorName, setEditorName] = useState("");
-const [inkerName, setInkerName] = useState("");
-const [lettererName, setLettererName] = useState("");
+  const [writerName, setWriterName] = useState("");
+  const [coloristName, setColoristName] = useState("");
+  const [coverArtistName, setCoverArtistName] = useState("");
+  const [editorName, setEditorName] = useState("");
+  const [inkerName, setInkerName] = useState("");
+  const [lettererName, setLettererName] = useState("");
 
 
   const handleSearchChange = (e) => {
@@ -49,9 +50,8 @@ const [lettererName, setLettererName] = useState("");
 
   return (
     <div>
-      <h1>Comic Collection</h1>
+      <Navbar /> 
       <ViewComicPage/>
-      <button type="button" onClick={handleAddClick}>+ Add Comic</button>
     </div>
   )
 };
